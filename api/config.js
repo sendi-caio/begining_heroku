@@ -1,7 +1,11 @@
-const db = require('../db/models')
+import db from '../db/models'
 
-module.exports = (req, res) => {
+const get = (req, res) => {
   db.User.findAll().then(
-    (data) => res.send(data)
+    (data) => res.send(data),
   )
+}
+
+export default {
+  get,
 }

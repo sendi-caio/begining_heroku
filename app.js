@@ -1,26 +1,24 @@
-const express = require('express')
-const portfinder = require('portfinder')
-const app = express()
-const isDev = require('./config/isDev')
-const db = require('./db/models')
-// api route start
-app.get('/', (req, res) => {
-  db.User.findAll().then(
-    (data) => res.send({
-      dev: isDev,
-      DB_USERNAME: process.env.DB_USERNAME,
-      data
-    })
-  )
-})
+import express from 'express'
+import portfinder from 'portfinder'
+import morgan from 'morgan'
+import path from 'path'
 
+import apiConfig from './api/config'
+
+const app = express()
+app.use(morgan('tiny'))
+
+// api route start
 // config
-app.get('/config', require('./api/config'))
+
+app.get('/config', apiConfig.get)
 // api route end
 
+const staticServe = express.static(path.join(__dirname, 'public'))
+app.use(staticServe)
+
 const run = async () => {
-  const defaultPort = 3000
-  const targetPort = process.env.PORT || defaultPort
+  const targetPort = process.env.PORT || 3000
   const port = await portfinder.getPortPromise({ port: targetPort })
   app.listen(port, () => console.log(`express run at port: ${port}`))
 }

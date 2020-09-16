@@ -1,6 +1,4 @@
-'use strict';
-const bcrypt = require('bcrypt');
-const { sequelize } = require('../models');
+import bcrypt from 'bcrypt'
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -11,26 +9,11 @@ module.exports = {
         avatar: '',
         created_at: Sequelize.fn('NOW'),
         updated_at: Sequelize.fn('NOW'),
-      }
+      },
     ])
-    /**
-     * Add seed commands here.
-     *
-     * Example:
-     * await queryInterface.bulkInsert('People', [{
-     *   name: 'John Doe',
-     *   isBetaMember: false
-     * }], {});
-    */
   },
 
-  down: async (queryInterface, Sequelize) => {
-    /**
-     * Add commands to revert seed here.
-     *
-     * Example:
-     * await queryInterface.bulkDelete('People', null, {});
-     */
+  down: async (queryInterface) => {
     await queryInterface.bulkDelete('Users', null, {})
-  }
-};
+  },
+}
