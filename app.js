@@ -3,7 +3,7 @@ const portfinder = require('portfinder')
 const app = express()
 const isDev = require('./config/isDev')
 const db = require('./db/models')
-// route start
+// api route start
 app.get('/', (req, res) => {
   db.User.findAll().then(
     (data) => res.send({
@@ -12,9 +12,11 @@ app.get('/', (req, res) => {
       data
     })
   )
-
 })
-// route end
+
+// config
+app.get('/config', require('./api/config'))
+// api route end
 
 const run = async () => {
   const defaultPort = 3000
